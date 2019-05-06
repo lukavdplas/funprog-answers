@@ -57,8 +57,23 @@ It is not immediately obvious that this definition is correct. Define
 a testing procedure isIntegerSqrt :: Property (Integer → Integer) to
 exercise the program. Can you actually figure out how it works?
 
-infixr 4  ⊗
-(⊗) ∷ Probes a → Probes b → Probes (a, b)
+> isIntegerSqrt :: Property (Integer → Integer)
+> isIntegerSqrt f = and (map (\x → x == f (x * x)) [1..10])
+
+
+3.5.5 : Define a combinator
+  infixr 4 ⊗
+  (⊗) :: Probes a → Probes b → Probes (a, b)
+that takes probes for type a, probes for type b, and generates
+probes for type (
+
+> infixr 4 ⊗
+> (⊗) ∷ Probes a → Probes b → Probes (a, b)
+> (⊗) as bs = [(a, b) | a ← as, b ← bs]
+
+If as contains m elements, and bs contains n elements, then as ⊗ bs
+contains ...
+as ⊗ bs contains m*n elements.
 
 > niftySort ∷ [a] → [a]
 > niftySort _xs  =  []
